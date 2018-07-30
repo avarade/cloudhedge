@@ -1,0 +1,44 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: firstservice
+  namespace: 1532949706873-cuddle1st-cuddletest
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        deploy: firstservice
+        cbservice: firstservice
+    spec:
+      containers:
+        - name: firstservice
+          image: avarade/cb-nginx
+          env:
+            - name: HDINSIGHTSURL
+              value: 'http://myurl.com'
+            - name: Username
+              value: jskdsffsdf
+            - name: CB_ENV_NAME
+              value: 1532949706873-cuddle1st-cuddletest
+            - name: CB_CLUSTER_ID
+              value: 5ad9dead0681cd000e7a7799
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: firstservice
+    cbservice: firstservice
+  name: firstservice
+  namespace: 1532949706873-cuddle1st-cuddletest
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      name: port80
+  selector:
+    deploy: firstservice
+
