@@ -1,0 +1,55 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: java
+  namespace: 1537339135858-test-icescrum
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: java
+        cbservice: java
+    spec:
+      containers:
+        - name: java
+          image: avarade/icescrum
+          env:
+            - name: CB_ENV_NAME
+              value: 1537339135858-test-icescrum
+            - name: CB_CLUSTER_ID
+              value: 5ba107b4e39495000e12c108
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: java
+    cbservice: java
+  name: java
+  namespace: 1537339135858-test-icescrum
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: port8080
+  selector:
+    deploy: java
+
+---
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v1
+metadata:
+  name: java
+  namespace: 1537339135858-test-icescrum
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: java
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 50
+
