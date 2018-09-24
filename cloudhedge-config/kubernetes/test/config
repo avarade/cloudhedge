@@ -1,34 +1,34 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: java
-  namespace: 1537339135858-test-icescrum
+  name: ice
+  namespace: 1537784024197-test-icescrum
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        deploy: java
-        cbservice: java
+        deploy: ice
+        cbservice: ice
     spec:
       containers:
-        - name: java
-          image: avarade/icescrum
+        - name: ice
+          image: amithaval/ice_test2
           env:
             - name: CB_ENV_NAME
-              value: 1537339135858-test-icescrum
+              value: 1537784024197-test-icescrum
             - name: CB_CLUSTER_ID
-              value: 5ba107b4e39495000e12c108
+              value: 5ba8afeb6efcb30010dab636
 
 ---
 kind: Service
 apiVersion: v1
 metadata:
   labels:
-    service: java
-    cbservice: java
-  name: java
-  namespace: 1537339135858-test-icescrum
+    service: ice
+    cbservice: ice
+  name: ice
+  namespace: 1537784024197-test-icescrum
 spec:
   type: LoadBalancer
   ports:
@@ -36,20 +36,5 @@ spec:
       targetPort: 8080
       name: port8080
   selector:
-    deploy: java
-
----
-kind: HorizontalPodAutoscaler
-apiVersion: autoscaling/v1
-metadata:
-  name: java
-  namespace: 1537339135858-test-icescrum
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1beta1
-    kind: Deployment
-    name: java
-  minReplicas: 1
-  maxReplicas: 1
-  targetCPUUtilizationPercentage: 50
+    deploy: ice
 
