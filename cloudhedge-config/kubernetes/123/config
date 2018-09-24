@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: test
-  namespace: 1537768336074-123-icescrum
+  namespace: 1537779267329-123-icescrum
 spec:
   replicas: 1
   template:
@@ -16,7 +16,7 @@ spec:
           image: amithaval/ice_test
           env:
             - name: CB_ENV_NAME
-              value: 1537768336074-123-icescrum
+              value: 1537779267329-123-icescrum
             - name: CB_CLUSTER_ID
               value: 5ba107b4e39495000e12c108
 
@@ -24,22 +24,22 @@ spec:
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: test11
-  namespace: 1537768336074-123-icescrum
+  name: py
+  namespace: 1537779267329-123-icescrum
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        deploy: test11
-        cbservice: test11
+        deploy: py
+        cbservice: py
     spec:
       containers:
-        - name: test11
+        - name: py
           image: amithaval/python_aws
           env:
             - name: CB_ENV_NAME
-              value: 1537768336074-123-icescrum
+              value: 1537779267329-123-icescrum
             - name: CB_CLUSTER_ID
               value: 5ba107b4e39495000e12c108
 
@@ -51,7 +51,7 @@ metadata:
     service: test
     cbservice: test
   name: test
-  namespace: 1537768336074-123-icescrum
+  namespace: 1537779267329-123-icescrum
 spec:
   type: LoadBalancer
   ports:
@@ -66,10 +66,10 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    service: test11
-    cbservice: test11
-  name: test11
-  namespace: 1537768336074-123-icescrum
+    service: py
+    cbservice: py
+  name: py
+  namespace: 1537779267329-123-icescrum
 spec:
   type: LoadBalancer
   ports:
@@ -77,5 +77,5 @@ spec:
       targetPort: 5002
       name: port5002
   selector:
-    deploy: test11
+    deploy: py
 
