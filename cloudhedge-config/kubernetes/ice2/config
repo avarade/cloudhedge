@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: icescrum
+  namespace: 1538559599499-ice2-icetest-sw
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: icescrum
+        cbservice: icescrum
+    spec:
+      containers:
+        - name: icescrum
+          image: amithaval/icescrum
+          env:
+            - name: CB_ENV_NAME
+              value: 1538559599499-ice2-icetest-sw
+            - name: CB_CLUSTER_ID
+              value: 5bb35231a99ef7000f2f5d1f
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: icescrum
+    cbservice: icescrum
+  name: icescrum
+  namespace: 1538559599499-ice2-icetest-sw
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: port8080
+  selector:
+    deploy: icescrum
+
