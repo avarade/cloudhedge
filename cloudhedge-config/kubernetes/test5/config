@@ -1,0 +1,42 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: colors
+  namespace: 1538562993636-test5-coltest-sw
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: colors
+        cbservice: colors
+    spec:
+      containers:
+        - name: colors
+          image: gurunath/colortest
+          env:
+            - name: color
+              value: blue
+            - name: CB_ENV_NAME
+              value: 1538562993636-test5-coltest-sw
+            - name: CB_CLUSTER_ID
+              value: 5bb35231a99ef7000f2f5d1f
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: colors
+    cbservice: colors
+  name: colors
+  namespace: 1538562993636-test5-coltest-sw
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      name: port80
+  selector:
+    deploy: colors
+
