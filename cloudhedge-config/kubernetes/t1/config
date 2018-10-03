@@ -1,24 +1,24 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: v4
-  namespace: 1538569852301-t1-coltest-sw
+  name: t1
+  namespace: 1538572661771-t1-coltest-sw
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        deploy: v4
-        cbservice: v4
+        deploy: t1
+        cbservice: t1
     spec:
       containers:
-        - name: v4
+        - name: t1
           image: gurunath/colortest
           env:
             - name: color
-              value: green
+              value: pink
             - name: CB_ENV_NAME
-              value: 1538569852301-t1-coltest-sw
+              value: 1538572661771-t1-coltest-sw
             - name: CB_CLUSTER_ID
               value: 5bb35231a99ef7000f2f5d1f
 
@@ -27,10 +27,10 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    service: v4
-    cbservice: v4
-  name: v4
-  namespace: 1538569852301-t1-coltest-sw
+    service: t1
+    cbservice: t1
+  name: t1
+  namespace: 1538572661771-t1-coltest-sw
 spec:
   type: LoadBalancer
   ports:
@@ -38,5 +38,5 @@ spec:
       targetPort: 80
       name: port80
   selector:
-    deploy: v4
+    deploy: t1
 
