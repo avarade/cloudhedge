@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: test1
-  namespace: 1538636429068-t0-coltest-sw
+  namespace: 1538637143307-t0-coltest-sw
 spec:
   replicas: 1
   template:
@@ -16,9 +16,9 @@ spec:
           image: gurunath/colortest
           env:
             - name: color
-              value: red
+              value: orange
             - name: CB_ENV_NAME
-              value: 1538636429068-t0-coltest-sw
+              value: 1538637143307-t0-coltest-sw
             - name: CB_CLUSTER_ID
               value: 5bb35231a99ef7000f2f5d1f
 
@@ -30,7 +30,7 @@ metadata:
     service: test1
     cbservice: test1
   name: test1
-  namespace: 1538636429068-t0-coltest-sw
+  namespace: 1538637143307-t0-coltest-sw
 spec:
   type: LoadBalancer
   ports:
