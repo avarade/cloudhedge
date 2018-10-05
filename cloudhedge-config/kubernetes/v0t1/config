@@ -1,0 +1,44 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: v0s0
+  namespace: 1538744720727-v0t1-color-sw
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: v0s0
+        cbservice: v0s0
+    spec:
+      containers:
+        - name: v0s0
+          image: gurunath/colortest
+          env:
+            - name: color
+              value: green
+            - name: color
+              value: blue
+            - name: CB_ENV_NAME
+              value: 1538744720727-v0t1-color-sw
+            - name: CB_CLUSTER_ID
+              value: 5bb35231a99ef7000f2f5d1f
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: v0s0
+    cbservice: v0s0
+  name: v0s0
+  namespace: 1538744720727-v0t1-color-sw
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      name: port80
+  selector:
+    deploy: v0s0
+
