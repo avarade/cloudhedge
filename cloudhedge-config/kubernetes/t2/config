@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: v0s0
-  namespace: 1538745638163-t2-color-sw
+  namespace: 1538745781974-t2-color-sw
 spec:
   replicas: 1
   template:
@@ -16,11 +16,13 @@ spec:
           image: gurunath/colortest
           env:
             - name: color
-              value: red
+              value: green
+            - name: color
+              value: green
             - name: color
               value: pink
             - name: CB_ENV_NAME
-              value: 1538745638163-t2-color-sw
+              value: 1538745781974-t2-color-sw
             - name: CB_CLUSTER_ID
               value: 5bb35231a99ef7000f2f5d1f
 
@@ -32,7 +34,7 @@ metadata:
     service: v0s0
     cbservice: v0s0
   name: v0s0
-  namespace: 1538745638163-t2-color-sw
+  namespace: 1538745781974-t2-color-sw
 spec:
   type: LoadBalancer
   ports:
