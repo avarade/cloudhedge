@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: redis
-  namespace: 1538749371888-t1-counterapp
+  namespace: 1538749510805-t1-counterapp
 spec:
   replicas: 1
   template:
@@ -16,32 +16,7 @@ spec:
           image: avarade/cb-redis
           env:
             - name: CB_ENV_NAME
-              value: 1538749371888-t1-counterapp
-            - name: CB_CLUSTER_ID
-              value: 5bb35231a99ef7000f2f5d1f
-
----
-kind: Deployment
-apiVersion: extensions/v1beta1
-metadata:
-  name: nginx
-  namespace: 1538749371888-t1-counterapp
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        deploy: nginx
-        cbservice: nginx
-    spec:
-      containers:
-        - name: nginx
-          image: avarade/cb-nginx
-          env:
-            - name: CB_ENV_PREFIX
-              value: node.
-            - name: CB_ENV_NAME
-              value: 1538749371888-t1-counterapp
+              value: 1538749510805-t1-counterapp
             - name: CB_CLUSTER_ID
               value: 5bb35231a99ef7000f2f5d1f
 
@@ -50,7 +25,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: node
-  namespace: 1538749371888-t1-counterapp
+  namespace: 1538749510805-t1-counterapp
 spec:
   replicas: 1
   template:
@@ -66,7 +41,32 @@ spec:
             - name: CB_ENV_PREFIX
               value: redis.
             - name: CB_ENV_NAME
-              value: 1538749371888-t1-counterapp
+              value: 1538749510805-t1-counterapp
+            - name: CB_CLUSTER_ID
+              value: 5bb35231a99ef7000f2f5d1f
+
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: nginx
+  namespace: 1538749510805-t1-counterapp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: nginx
+        cbservice: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: avarade/cb-nginx
+          env:
+            - name: CB_ENV_PREFIX
+              value: node.
+            - name: CB_ENV_NAME
+              value: 1538749510805-t1-counterapp
             - name: CB_CLUSTER_ID
               value: 5bb35231a99ef7000f2f5d1f
 
@@ -78,7 +78,7 @@ metadata:
     service: redis
     cbservice: redis
   name: redis
-  namespace: 1538749371888-t1-counterapp
+  namespace: 1538749510805-t1-counterapp
 spec:
   type: NodePort
   ports:
@@ -93,28 +93,10 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    service: nginx
-    cbservice: nginx
-  name: nginx
-  namespace: 1538749371888-t1-counterapp
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 80
-      targetPort: 80
-      name: port80
-  selector:
-    deploy: nginx
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  labels:
     service: node
     cbservice: node
   name: node
-  namespace: 1538749371888-t1-counterapp
+  namespace: 1538749510805-t1-counterapp
 spec:
   type: NodePort
   ports:
@@ -123,4 +105,22 @@ spec:
       name: port8080
   selector:
     deploy: node
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: nginx
+    cbservice: nginx
+  name: nginx
+  namespace: 1538749510805-t1-counterapp
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      name: port80
+  selector:
+    deploy: nginx
 
