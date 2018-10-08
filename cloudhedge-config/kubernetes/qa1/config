@@ -1,0 +1,55 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: nginx
+  namespace: 1539033791203-qa1-bucketlistapp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: nginx
+        cbservice: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          env:
+            - name: CB_ENV_NAME
+              value: 1539033791203-qa1-bucketlistapp
+            - name: CB_CLUSTER_ID
+              value: 5bbb6499321a38000e6da459
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: nginx
+    cbservice: nginx
+  name: nginx
+  namespace: 1539033791203-qa1-bucketlistapp
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      name: port80
+  selector:
+    deploy: nginx
+
+---
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v1
+metadata:
+  name: nginx
+  namespace: 1539033791203-qa1-bucketlistapp
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: nginx
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 50
+
