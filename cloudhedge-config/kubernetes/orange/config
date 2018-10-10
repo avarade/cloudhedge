@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: php
-  namespace: 1538562608080-orange-colortest
+  namespace: 1539171514022-orange-colortest
 spec:
   replicas: 1
   template:
@@ -18,9 +18,9 @@ spec:
             - name: color
               value: orange
             - name: CB_ENV_NAME
-              value: 1538562608080-orange-colortest
+              value: 1539171514022-orange-colortest
             - name: CB_CLUSTER_ID
-              value: 5bb35231a99ef7000f2f5d1f
+              value: 5bbb6499321a38000e6da459
 
 ---
 kind: Service
@@ -30,7 +30,7 @@ metadata:
     service: php
     cbservice: php
   name: php
-  namespace: 1538562608080-orange-colortest
+  namespace: 1539171514022-orange-colortest
 spec:
   type: LoadBalancer
   ports:
