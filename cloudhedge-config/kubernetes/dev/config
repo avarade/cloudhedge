@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: test12
+  namespace: 1540208668510-dev-icescrum
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: test12
+        cbservice: test12
+    spec:
+      containers:
+        - name: test12
+          image: amithaval/icescrum
+          env:
+            - name: CB_ENV_NAME
+              value: 1540208668510-dev-icescrum
+            - name: CB_CLUSTER_ID
+              value: 5bbb6499321a38000e6da459
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: test12
+    cbservice: test12
+  name: test12
+  namespace: 1540208668510-dev-icescrum
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: port8080
+  selector:
+    deploy: test12
+
