@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: python
-  namespace: 1536224428575-bucket1-bucketlistapp
+  namespace: 1541083252552-bucket1-bucketlistapp
 spec:
   replicas: 1
   template:
@@ -16,9 +16,9 @@ spec:
           image: ppanditrao/linux-python-app
           env:
             - name: CB_ENV_NAME
-              value: 1536224428575-bucket1-bucketlistapp
+              value: 1541083252552-bucket1-bucketlistapp
             - name: CB_CLUSTER_ID
-              value: 5b4f1458f96b3a000e67a29d
+              value: 5bbb6499321a38000e6da459
 
 ---
 kind: Service
@@ -28,7 +28,7 @@ metadata:
     service: python
     cbservice: python
   name: python
-  namespace: 1536224428575-bucket1-bucketlistapp
+  namespace: 1541083252552-bucket1-bucketlistapp
 spec:
   type: LoadBalancer
   ports:
