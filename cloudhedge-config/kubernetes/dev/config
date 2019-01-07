@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: test12
-  namespace: 1540208668510-dev-icescrum
+  namespace: 1546848357825-dev-icescrum
 spec:
   replicas: 1
   template:
@@ -16,9 +16,9 @@ spec:
           image: amithaval/icescrum
           env:
             - name: CB_ENV_NAME
-              value: 1540208668510-dev-icescrum
+              value: 1546848357825-dev-icescrum
             - name: CB_CLUSTER_ID
-              value: 5bbb6499321a38000e6da459
+              value: 5bbdf817a76dab000e4ec651
 
 ---
 kind: Service
@@ -28,7 +28,7 @@ metadata:
     service: test12
     cbservice: test12
   name: test12
-  namespace: 1540208668510-dev-icescrum
+  namespace: 1546848357825-dev-icescrum
 spec:
   type: LoadBalancer
   ports:
