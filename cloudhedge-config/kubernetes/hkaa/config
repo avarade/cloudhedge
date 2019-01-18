@@ -1,0 +1,126 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: redis
+  namespace: 1547794419319-hkaa-counterapp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: redis
+        cbservice: redis
+    spec:
+      containers:
+        - name: redis
+          image: avarade/cb-redis
+          env:
+            - name: CB_ENV_NAME
+              value: 1547794419319-hkaa-counterapp
+            - name: CB_CLUSTER_ID
+              value: 5bbdf817a76dab000e4ec651
+
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: nginx
+  namespace: 1547794419319-hkaa-counterapp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: nginx
+        cbservice: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: avarade/cb-nginx
+          env:
+            - name: CB_ENV_PREFIX
+              value: node.
+            - name: CB_ENV_NAME
+              value: 1547794419319-hkaa-counterapp
+            - name: CB_CLUSTER_ID
+              value: 5bbdf817a76dab000e4ec651
+
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: node
+  namespace: 1547794419319-hkaa-counterapp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: node
+        cbservice: node
+    spec:
+      containers:
+        - name: node
+          image: avarade/cb-node
+          env:
+            - name: CB_ENV_PREFIX
+              value: redis.
+            - name: CB_ENV_NAME
+              value: 1547794419319-hkaa-counterapp
+            - name: CB_CLUSTER_ID
+              value: 5bbdf817a76dab000e4ec651
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: redis
+    cbservice: redis
+  name: redis
+  namespace: 1547794419319-hkaa-counterapp
+spec:
+  type: NodePort
+  ports:
+    - port: 6379
+      targetPort: 6379
+      name: port6379
+  selector:
+    deploy: redis
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: nginx
+    cbservice: nginx
+  name: nginx
+  namespace: 1547794419319-hkaa-counterapp
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      name: port80
+  selector:
+    deploy: nginx
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: node
+    cbservice: node
+  name: node
+  namespace: 1547794419319-hkaa-counterapp
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: port8080
+  selector:
+    deploy: node
+
