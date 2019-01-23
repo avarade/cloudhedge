@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: wordpress
+  namespace: 1548237800536-demmo-ananddemodelete
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: wordpress
+        cbservice: wordpress
+    spec:
+      containers:
+        - name: wordpress
+          image: cloudhedge / wordpress
+          env:
+            - name: CB_ENV_NAME
+              value: 1548237800536-demmo-ananddemodelete
+            - name: CB_CLUSTER_ID
+              value: 5bbdf817a76dab000e4ec651
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: wordpress
+    cbservice: wordpress
+  name: wordpress
+  namespace: 1548237800536-demmo-ananddemodelete
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      name: port80
+  selector:
+    deploy: wordpress
+
