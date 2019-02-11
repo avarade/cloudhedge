@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: redis
-  namespace: 1546852263462-dev-counterapp
+  namespace: 1549874407737-dev-counterapp
 spec:
   replicas: 1
   template:
@@ -16,16 +16,16 @@ spec:
           image: avarade/cb-redis
           env:
             - name: CB_ENV_NAME
-              value: 1546852263462-dev-counterapp
+              value: 1549874407737-dev-counterapp
             - name: CB_CLUSTER_ID
-              value: 5c330b050105780017ba3c65
+              value: 5c6127b922364b00155ac2c5
 
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: nginx
-  namespace: 1546852263462-dev-counterapp
+  namespace: 1549874407737-dev-counterapp
 spec:
   replicas: 1
   template:
@@ -41,16 +41,16 @@ spec:
             - name: CB_ENV_PREFIX
               value: node.
             - name: CB_ENV_NAME
-              value: 1546852263462-dev-counterapp
+              value: 1549874407737-dev-counterapp
             - name: CB_CLUSTER_ID
-              value: 5c330b050105780017ba3c65
+              value: 5c6127b922364b00155ac2c5
 
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: node
-  namespace: 1546852263462-dev-counterapp
+  namespace: 1549874407737-dev-counterapp
 spec:
   replicas: 1
   template:
@@ -66,9 +66,9 @@ spec:
             - name: CB_ENV_PREFIX
               value: redis.
             - name: CB_ENV_NAME
-              value: 1546852263462-dev-counterapp
+              value: 1549874407737-dev-counterapp
             - name: CB_CLUSTER_ID
-              value: 5c330b050105780017ba3c65
+              value: 5c6127b922364b00155ac2c5
 
 ---
 kind: Service
@@ -78,7 +78,7 @@ metadata:
     service: redis
     cbservice: redis
   name: redis
-  namespace: 1546852263462-dev-counterapp
+  namespace: 1549874407737-dev-counterapp
 spec:
   type: NodePort
   ports:
@@ -96,7 +96,7 @@ metadata:
     service: nginx
     cbservice: nginx
   name: nginx
-  namespace: 1546852263462-dev-counterapp
+  namespace: 1549874407737-dev-counterapp
 spec:
   type: LoadBalancer
   ports:
@@ -114,7 +114,7 @@ metadata:
     service: node
     cbservice: node
   name: node
-  namespace: 1546852263462-dev-counterapp
+  namespace: 1549874407737-dev-counterapp
 spec:
   type: NodePort
   ports:
