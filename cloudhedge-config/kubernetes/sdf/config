@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: wordpress
+  namespace: sdf-ananddemodelete
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: wordpress
+        cbservice: wordpress
+    spec:
+      containers:
+        - name: wordpress
+          image: cloudhedge/wp-apache
+          env:
+            - name: CB_ENV_NAME
+              value: sdf-ananddemodelete
+            - name: CB_CLUSTER_ID
+              value: 5c9b043912682d00150eefd5
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: wordpress
+    cbservice: wordpress
+  name: wordpress
+  namespace: sdf-ananddemodelete
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      name: port80
+  selector:
+    deploy: wordpress
+
