@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
         - name: icescrumbe
-          image: 'kingalech/icescrumbe:dev'
+          image: 'kingalech/icescrumbe:dev2'
           env:
             - name: CB_ENV_NAME
               value: dev1-rhel-icescrum
