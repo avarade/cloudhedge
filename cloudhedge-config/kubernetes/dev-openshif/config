@@ -1,0 +1,81 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: frontend
+  namespace: dev-openshif-rhel-icescrum
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: frontend
+        cbservice: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: 'kingalech/sanity:dev'
+          env:
+            - name: CB_ENV_NAME
+              value: dev-openshif-rhel-icescrum
+            - name: CB_CLUSTER_ID
+              value: 5c908d92e6c0d1afd3a3f168
+
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: icescrumbe
+  namespace: dev-openshif-rhel-icescrum
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deploy: icescrumbe
+        cbservice: icescrumbe
+    spec:
+      containers:
+        - name: icescrumbe
+          image: 'kingalech/icescrumbe:dev'
+          env:
+            - name: CB_ENV_NAME
+              value: dev-openshif-rhel-icescrum
+            - name: CB_CLUSTER_ID
+              value: 5c908d92e6c0d1afd3a3f168
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: frontend
+    cbservice: frontend
+  name: frontend
+  namespace: dev-openshif-rhel-icescrum
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      name: port80
+  selector:
+    deploy: frontend
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    service: icescrumbe
+    cbservice: icescrumbe
+  name: icescrumbe
+  namespace: dev-openshif-rhel-icescrum
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: port8080
+  selector:
+    deploy: icescrumbe
+
