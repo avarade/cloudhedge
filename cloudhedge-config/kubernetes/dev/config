@@ -2,9 +2,9 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: php
-  namespace: 1550125915660-dev-colortest
+  namespace: dev-colortest
 spec:
-  replicas: 10
+  replicas: 1
   template:
     metadata:
       labels:
@@ -16,11 +16,11 @@ spec:
           image: gurunath/colortest
           env:
             - name: color
-              value: blue
+              value: orange
             - name: CB_ENV_NAME
-              value: 1550125915660-dev-colortest
+              value: dev-colortest
             - name: CB_CLUSTER_ID
-              value: 5c64fd2822364b00155ac2d5
+              value: 5ca757bae6c0d1afd3485f5f
 
 ---
 kind: Service
@@ -30,7 +30,7 @@ metadata:
     service: php
     cbservice: php
   name: php
-  namespace: 1550125915660-dev-colortest
+  namespace: dev-colortest
 spec:
   type: LoadBalancer
   ports:
@@ -39,19 +39,4 @@ spec:
       name: port80
   selector:
     deploy: php
-
----
-kind: HorizontalPodAutoscaler
-apiVersion: autoscaling/v1
-metadata:
-  name: php
-  namespace: 1550125915660-dev-colortest
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1beta1
-    kind: Deployment
-    name: php
-  minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 50
 
